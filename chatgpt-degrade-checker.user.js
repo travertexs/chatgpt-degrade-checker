@@ -6,7 +6,7 @@
 // @name:es-ES      ChatGPT Degrade Checker
 // @namespace       https://github.com/travertexs/chatgpt-degrade-checker
 // @homepage        https://github.com/travertexs/chatgpt-degrade-checker
-// @version         3.13
+// @version         3.20
 // @description:en  Detects the risk level of your IP in ChatGPT's database due to potential service degradation.
 // @description:zh  由于 ChatGPT 会对某些 ip 进行无提示的服务降级，此脚本用于检测你的 ip 在 ChatGPT 数据库中的风险等级。
 // @author          KoriIku, travertexs, o1-mini
@@ -25,7 +25,8 @@
     // 1. Constants and Configurations
     // ----------------------------
     const TRANSITION_DURATION = 300; // in milliseconds
-    const DEFAULT_LANGUAGE = 'en';
+    const DEFAULT_LANGUAGE = 'default';
+    const FALLBACK_LANGUAGE = 'en';
     const STORAGE_KEY_LANGUAGE = 'chatgpt_degrade_checker_language';
     const STORAGE_KEY_THEME = 'chatgpt_degrade_checker_theme';
     const HIDE_DELAY = 500; // in milliseconds
@@ -71,10 +72,10 @@
     // ----------------------------
     // 3. Localization Dictionary
     // ----------------------------
-    const translations = {
+    const localizations = {
         'en': {
             'language_name': 'English',
-            'default_option': 'Default',
+            'default_option': 'Browser Default',
             'pow_info': 'PoW Information',
             'pow_difficulty': 'PoW Difficulty',
             'ip_quality': 'IP Quality',
@@ -87,8 +88,8 @@
             'dark_theme': 'Dark',
             'high_risk': 'High Risk',
             'medium_risk': 'Medium Risk',
-            'good_risk': 'Good',
-            'excellent_risk': 'Excellent',
+            'low_risk': 'Good',
+            'verylow_risk': 'Excellent',
             'difficult': '(Difficult)',
             'medium': '(Medium)',
             'easy': '(Easy)',
@@ -101,20 +102,20 @@
         'fr': {
             'language_name': 'Français',
             'default_option': 'Par Défaut',
-            'pow_info': 'Information PoW',
+            'pow_info': 'Informations sur PoW',
             'pow_difficulty': 'Difficulté PoW',
-            'ip_quality': 'Qualité IP',
+            'ip_quality': 'Qualité de l\'IP',
             'user_persona': 'Profil Utilisateur',
             'chatgpt_degrade_checker': 'Détecteur de Dégradation ChatGPT',
-            'tooltip_text': 'Une valeur plus petite indique une difficulté PoW plus élevée, ce qui signifie que ChatGPT considère votre IP comme présentant un risque plus élevé.',
+            'tooltip_text': 'Une valeur plus petite indique une difficulté PoW plus élevée, ce qui signifie que ChatGPT considère que votre IP présente un risque plus élevé.',
             'language_label': 'Langue:',
             'theme_label': 'Thème:',
             'light_theme': 'Clair',
             'dark_theme': 'Sombre',
             'high_risk': 'Risque Élevé',
             'medium_risk': 'Risque Moyen',
-            'good_risk': 'Bon',
-            'excellent_risk': 'Excellent',
+            'low_risk': 'Bon',
+            'verylow_risk': 'Excellent',
             'difficult': '(Difficile)',
             'medium': '(Moyen)',
             'easy': '(Facile)',
@@ -126,21 +127,21 @@
         },
         'zh': {
             'language_name': '简体中文',
-            'default_option': '默认',
+            'default_option': '浏览器默认',
             'pow_info': 'PoW 信息',
-            'pow_difficulty': 'PoW难度',
-            'ip_quality': 'IP质量',
+            'pow_difficulty': 'PoW 难度',
+            'ip_quality': 'IP 质量',
             'user_persona': '用户类型',
             'chatgpt_degrade_checker': 'ChatGPT 降级检测器',
-            'tooltip_text': '这个值越小，代表PoW难度越高，ChatGPT认为你的IP风险越高。',
+            'tooltip_text': '这个值越小，代表 PoW 难度越高，ChatGPT 认为你的 IP 风险越高。',
             'language_label': '语言:',
             'theme_label': '主题:',
             'light_theme': '浅色',
             'dark_theme': '深色',
             'high_risk': '高风险',
             'medium_risk': '中等风险',
-            'good_risk': '良好',
-            'excellent_risk': '优秀',
+            'low_risk': '良好',
+            'verylow_risk': '优秀',
             'difficult': '(困难)',
             'medium': '(中等)',
             'easy': '(简单)',
@@ -152,21 +153,21 @@
         },
         'zh-TW': {
             'language_name': '繁體中文',
-            'default_option': '默認',
+            'default_option': '瀏覽器預設',
             'pow_info': 'PoW 資訊',
-            'pow_difficulty': 'PoW難度',
-            'ip_quality': 'IP品質',
+            'pow_difficulty': 'PoW 難度',
+            'ip_quality': 'IP 品質',
             'user_persona': '用戶類型',
             'chatgpt_degrade_checker': 'ChatGPT 降級檢測器',
-            'tooltip_text': '這個值越小，代表PoW難度越高，ChatGPT認為你的IP風險越高。',
+            'tooltip_text': '這個值越小，代表 PoW 難度越高，ChatGPT 認為你的 IP 風險越高。',
             'language_label': '語言:',
             'theme_label': '主題:',
             'light_theme': '淺色',
             'dark_theme': '深色',
             'high_risk': '高風險',
             'medium_risk': '中等風險',
-            'good_risk': '良好',
-            'excellent_risk': '優秀',
+            'low_risk': '良好',
+            'verylow_risk': '優秀',
             'difficult': '(困難)',
             'medium': '(中等)',
             'easy': '(簡單)',
@@ -179,11 +180,11 @@
         'es': {
             'language_name': 'Español',
             'default_option': 'Predeterminado',
-            'pow_info': 'Información PoW',
-            'pow_difficulty': 'Dificultad PoW',
-            'ip_quality': 'Calidad de IP',
-            'user_persona': 'Persona de Usuario',
-            'chatgpt_degrade_checker': 'ChatGPT Degrade Checker',
+            'pow_info': 'Información de PoW',
+            'pow_difficulty': 'Dificultad de PoW',
+            'ip_quality': 'Calidad de la IP',
+            'user_persona': 'Perfil de Usuario',
+            'chatgpt_degrade_checker': 'Verificador de Degradación de ChatGPT',
             'tooltip_text': 'Un valor más pequeño indica una mayor dificultad de PoW, lo que significa que ChatGPT considera que tu IP tiene un mayor riesgo.',
             'language_label': 'Idioma:',
             'theme_label': 'Tema:',
@@ -191,8 +192,8 @@
             'dark_theme': 'Oscuro',
             'high_risk': 'Alto Riesgo',
             'medium_risk': 'Riesgo Medio',
-            'good_risk': 'Bueno',
-            'excellent_risk': 'Excelente',
+            'low_risk': 'Bueno',
+            'verylow_risk': 'Excelente',
             'difficult': '(Difícil)',
             'medium': '(Medio)',
             'easy': '(Fácil)',
@@ -202,8 +203,8 @@
             'refresh_button': 'Actualizar',
             'refreshing': 'Actualizando...'
         },
-        // Add more localizations here with 'language_name', 'default_option', 'refresh_button', and 'refreshing'
-    };
+        // More localizations can be added as needed
+    };    
 
     // ----------------------------
     // 4. Localization Management
@@ -212,54 +213,59 @@
     // Function to get user's preferred language
     function getUserLanguage() {
         const savedLanguage = localStorage.getItem(STORAGE_KEY_LANGUAGE);
-        if (savedLanguage && savedLanguage !== 'default' && translations[savedLanguage]) {
+        
+        if (savedLanguage && savedLanguage !== DEFAULT_LANGUAGE && localizations[savedLanguage]) {
             return savedLanguage;
         }
-        // Fallback to browser language
-        const browserLang = navigator.language;
-        if (translations[browserLang]) {
-            return browserLang;
+
+        return DEFAULT_LANGUAGE;
+    }
+
+    // Function to determine effective language based on current selection
+    function getEffectiveLanguage(lang) {
+        let userLanguage = lang;
+        if (!localizations[userLanguage])
+        {
+            userLanguage = getUserLanguage();
         }
-        // Attempt to match base language if full code isn't available
-        const baseLang = browserLang.split('-')[0];
-        if (translations[baseLang]) {
-            return baseLang;
+
+        if(userLanguage === DEFAULT_LANGUAGE)
+        {
+            // Fallback to browser language
+            const browserLang = navigator.language;
+            if (localizations[browserLang])
+            {
+                return browserLang;
+            }
+
+            // Attempt to match base language if full code isn't available
+            const baseLang = browserLang.split('-')[0];
+            return localizations[baseLang] ? baseLang : FALLBACK_LANGUAGE;
         }
-        return 'default';
+
+        return userLanguage;
     }
 
     // Function to set user's preferred language
     function setUserLanguage(lang) {
-        if (lang === 'default') {
-            localStorage.setItem(STORAGE_KEY_LANGUAGE, 'default');
-            currentLanguage = getEffectiveLanguage(); // Determine based on browser settings
-        } else if (translations[lang]) {
+        if (lang === DEFAULT_LANGUAGE) {
+            localStorage.setItem(STORAGE_KEY_LANGUAGE, DEFAULT_LANGUAGE);
+
+            currentLanguage = DEFAULT_LANGUAGE;
+            activeLanguage = getEffectiveLanguage(currentLanguage);
+        } else if (localizations[lang]) {
             localStorage.setItem(STORAGE_KEY_LANGUAGE, lang);
+
             currentLanguage = lang;
+            activeLanguage = lang;
         }
         updateUIText();
         // Reapply dynamic localizations
         reapplyDynamicLocalizations();
     }
 
-    // Function to determine effective language based on current selection
-    function getEffectiveLanguage() {
-        const savedLanguage = localStorage.getItem(STORAGE_KEY_LANGUAGE);
-        if (savedLanguage && savedLanguage !== 'default' && translations[savedLanguage]) {
-            return savedLanguage;
-        }
-        if (savedLanguage === 'default') {
-            const browserLang = navigator.language;
-            if (translations[browserLang]) {
-                return browserLang;
-            }
-            const baseLang = browserLang.split('-')[0];
-            return translations[baseLang] ? baseLang : DEFAULT_LANGUAGE;
-        }
-        return DEFAULT_LANGUAGE;
-    }
-
-    let currentLanguage = getEffectiveLanguage();
+    let currentLanguage = getUserLanguage();
+    let activeLanguage = getEffectiveLanguage(currentLanguage);
 
     // Function to get user's preferred theme
     function getUserTheme() {
@@ -285,7 +291,7 @@
     // 5. Helper Function to Get Localized Text
     // ----------------------------
     function t(key) {
-        return translations[currentLanguage][key] || translations[DEFAULT_LANGUAGE][key] || key;
+        return localizations[activeLanguage][key] || localizations[FALLBACK_LANGUAGE][key] || key;
     }
 
     // ----------------------------
@@ -378,8 +384,8 @@
                     background-color: ${themes[currentTheme].selectBackground};
                     border: 1px solid ${themes[currentTheme].textColor};
                 ">
-                    <option value="default" ${localStorage.getItem(STORAGE_KEY_LANGUAGE) === 'default' || !localStorage.getItem(STORAGE_KEY_LANGUAGE) ? 'selected' : ''}>${t('default_option')}</option>
-                    ${Object.keys(translations).map(lang => `<option value="${lang}" ${lang === currentLanguage ? 'selected' : ''}>${translations[lang].language_name}</option>`).join('')}
+                    <option value="default" ${currentLanguage === DEFAULT_LANGUAGE ? 'selected' : ''}>${t('default_option')}</option>
+                    ${Object.keys(localizations).map(lang => `<option value="${lang}" ${lang === activeLanguage && currentLanguage !== DEFAULT_LANGUAGE ? 'selected' : ''}>${localizations[lang].language_name}</option>`).join('')}
                 </select>
             </div>
             <div style="margin-top: 10px;">
@@ -638,10 +644,9 @@
 
         // Update language selector options
         languageSelect.innerHTML = `
-            <option value="default" ${localStorage.getItem(STORAGE_KEY_LANGUAGE) === 'default' || !localStorage.getItem(STORAGE_KEY_LANGUAGE) ? 'selected' : ''}>${t('default_option')}</option>
-            ${Object.keys(translations).map(lang =>
-                `<option value="${lang}" ${lang === currentLanguage ? 'selected' : ''}>${translations[lang].language_name}</option>`
-            ).join('')}`;
+            <option value="default" ${currentLanguage === DEFAULT_LANGUAGE ? 'selected' : ''}>${t('default_option')}</option>
+            ${Object.keys(localizations).map(lang =>`<option value="${lang}" ${lang === activeLanguage && currentLanguage !== DEFAULT_LANGUAGE ? 'selected' : ''}>${localizations[lang].language_name}</option>`).join('')}
+        `;
 
         // Update theme selector options with localized names
         themeSelect.innerHTML = Object.keys(themes).map(themeKey =>
@@ -787,13 +792,13 @@
             secondaryColor = '#689f38';
             textColor = '#9acd32';
             level = t('easy');
-            qualityText = t('good_risk');
+            qualityText = t('low_risk');
         } else {
             color = '#4CAF50';
             secondaryColor = '#388e3c';
             textColor = '#98fb98';
             level = t('very_easy');
-            qualityText = t('excellent_risk');
+            qualityText = t('verylow_risk');
         }
 
         setIconColors(color, secondaryColor);
