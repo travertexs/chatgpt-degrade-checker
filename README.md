@@ -5,7 +5,7 @@ This tool helps detect if ChatGPT has limited access to certain features on your
 ## Installation and Usage
 1. First, install Tampermonkey: https://www.tampermonkey.net/
 
-2. Then, click this link to install the tool: [Click to Install](https://update.greasyfork.org/scripts/516051/ChatGPT%E9%99%8D%E7%BA%A7%E6%A3%80%E6%B5%8B.user.js)
+2. Then, click this link to install the tool: [Click to Install](https://github.com/travertexs/chatgpt-degrade-checker/raw/refs/heads/main/chatgpt-degrade-checker.user.js)
 
 3. After installation, open [ChatGPT](https://chatgpt.com/). A green circle will appear on the right side of the screen. Hover over it to view diagnostic details. If the Proof of Work (PoW) difficulty displayed is unusually low, it may suggest that your IP has been flagged, which could result in limited access to certain features.
 
@@ -21,6 +21,10 @@ With service downgrades, even ChatGPT Plus users may notice missing features lik
 
 For users experiencing sudden changes in ChatGPT functionality—like missing image generation, web search, or nuanced responses—this tool may help clarify if a silent downgrade is impacting their experience.
 
+## Credits
+
+- [KoriIku/chatgpt-degrade-checker](https://github.com/KoriIku/chatgpt-degrade-checker)
+
 
 ---
 
@@ -30,7 +34,7 @@ For users experiencing sudden changes in ChatGPT functionality—like missing im
 ## 安装及使用
 1. 首先安装 tampermonkey：https://www.tampermonkey.net/
 
-2. 然后点击链接安装本工具： [点此安装](https://update.greasyfork.org/scripts/516051/ChatGPT%E9%99%8D%E7%BA%A7%E6%A3%80%E6%B5%8B.user.js)
+2. 然后点击链接安装本工具： [点此安装](https://github.com/travertexs/chatgpt-degrade-checker/raw/refs/heads/main/chatgpt-degrade-checker.user.js)
 
 3. 安装完成后打开 [chatgpt](https://chatgpt.com/)，你可以在屏幕右侧看到一个绿色圆圈，鼠标移上去之后会显示详细信息，如果 PoW 难度的值很低，代表你的 ip 可能被判断为了高风险。
 
@@ -53,7 +57,7 @@ Cet outil aide à détecter si ChatGPT a limité l'accès à certaines fonctionn
 ## Installation et Utilisation
 Installez d'abord Tampermonkey : https://www.tampermonkey.net/
 
-Ensuite, cliquez sur ce lien pour installer l'outil : Cliquez pour Installer
+Ensuite, cliquez sur ce lien pour installer l'outil : [Cliquez pour Installer](https://github.com/travertexs/chatgpt-degrade-checker/raw/refs/heads/main/chatgpt-degrade-checker.user.js)
 
 Après l'installation, ouvrez ChatGPT. Un cercle vert apparaîtra sur le côté droit de l'écran. Survolez-le pour afficher les détails du diagnostic. Si la difficulté de la Preuve de Travail (PoW) affichée est exceptionnellement basse, cela peut suggérer que votre IP a été signalée, ce qui pourrait entraîner un accès limité à certaines fonctionnalités.
 
