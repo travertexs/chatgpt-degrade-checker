@@ -742,13 +742,24 @@
     // ----------------------------
     // 10. Updating the Difficulty Indicator
     // ----------------------------
+
+    function setIconColors(primaryColor, secondaryColor) {
+        const gradient = document.querySelector('#gradient');
+        if (gradient) {
+            gradient.innerHTML = `
+                <stop offset="0%" style="stop-color:${primaryColor};stop-opacity:1" />
+                <stop offset="100%" style="stop-color:${secondaryColor};stop-opacity:1" />
+            `;
+        }
+    }
+
     function updateDifficultyIndicator(difficulty) {
         currentDifficulty = difficulty; // Store current difficulty
         const difficultyLevel = displayBox.querySelector('#difficulty-level');
         const ipQuality = displayBox.querySelector('#ip-quality');
 
         if (difficulty === 'N/A') {
-            // Icon colors remain fixed; no changes needed
+            setIconColors('#888', '#666');
             difficultyLevel.innerText = '';
             ipQuality.innerText = t('n_a');
             return;
@@ -785,8 +796,7 @@
             qualityText = t('excellent_risk');
         }
 
-        // Since the icon colors are fixed to dark theme, we don't change them here
-
+        setIconColors(color, secondaryColor);
         difficultyLevel.innerHTML = `<span style="color: ${textColor}">${level}</span>`;
         ipQuality.innerHTML = `<span style="color: ${textColor}">${qualityText}</span>`;
     }
