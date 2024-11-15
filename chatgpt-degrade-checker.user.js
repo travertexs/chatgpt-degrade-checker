@@ -6,7 +6,7 @@
 // @name:es-ES      ChatGPT Degrade Checker
 // @namespace       https://github.com/travertexs/chatgpt-degrade-checker
 // @homepage        https://github.com/travertexs/chatgpt-degrade-checker
-// @version         3.12
+// @version         3.13
 // @description:en  Detects the risk level of your IP in ChatGPT's database due to potential service degradation.
 // @description:zh  由于 ChatGPT 会对某些 ip 进行无提示的服务降级，此脚本用于检测你的 ip 在 ChatGPT 数据库中的风险等级。
 // @author          KoriIku, travertexs, o1-mini
