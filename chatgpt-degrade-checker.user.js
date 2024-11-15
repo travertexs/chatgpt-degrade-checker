@@ -6,7 +6,7 @@
 // @name:es-ES      ChatGPT Degrade Checker
 // @namespace       https://github.com/travertexs/chatgpt-degrade-checker
 // @homepage        https://github.com/travertexs/chatgpt-degrade-checker
-// @version         3.20
+// @version         3.21
 // @description:en  Detects the risk level of your IP in ChatGPT's database due to potential service degradation.
 // @description:zh  由于 ChatGPT 会对某些 ip 进行无提示的服务降级，此脚本用于检测你的 ip 在 ChatGPT 数据库中的风险等级。
 // @author          KoriIku, travertexs, o1-mini
@@ -77,13 +77,13 @@
             'language_name': 'English',
             'default_option': 'Browser Default',
             'pow_info': 'PoW Information',
-            'pow_difficulty': 'PoW Difficulty',
-            'ip_quality': 'IP Quality',
-            'user_persona': 'User Persona',
+            'pow_difficulty': 'PoW Difficulty: ',
+            'ip_quality': 'IP Quality: ',
+            'user_persona': 'User Persona: ',
             'chatgpt_degrade_checker': 'ChatGPT Degrade Checker',
             'tooltip_text': 'A smaller value indicates higher PoW difficulty, meaning ChatGPT considers your IP to have a higher risk.',
-            'language_label': 'Language:',
-            'theme_label': 'Theme:',
+            'language_label': 'Language: ',
+            'theme_label': 'Theme: ',
             'light_theme': 'Light',
             'dark_theme': 'Dark',
             'high_risk': 'High Risk',
@@ -103,13 +103,13 @@
             'language_name': 'Français',
             'default_option': 'Par Défaut',
             'pow_info': 'Informations sur PoW',
-            'pow_difficulty': 'Difficulté PoW',
-            'ip_quality': 'Qualité de l\'IP',
-            'user_persona': 'Profil Utilisateur',
+            'pow_difficulty': 'Difficulté PoW: ',
+            'ip_quality': 'Qualité de l\'IP: ',
+            'user_persona': 'Profil Utilisateur: ',
             'chatgpt_degrade_checker': 'Détecteur de Dégradation ChatGPT',
             'tooltip_text': 'Une valeur plus petite indique une difficulté PoW plus élevée, ce qui signifie que ChatGPT considère que votre IP présente un risque plus élevé.',
-            'language_label': 'Langue:',
-            'theme_label': 'Thème:',
+            'language_label': 'Langue: ',
+            'theme_label': 'Thème: ',
             'light_theme': 'Clair',
             'dark_theme': 'Sombre',
             'high_risk': 'Risque Élevé',
@@ -129,13 +129,13 @@
             'language_name': '简体中文',
             'default_option': '浏览器默认',
             'pow_info': 'PoW 信息',
-            'pow_difficulty': 'PoW 难度',
-            'ip_quality': 'IP 质量',
-            'user_persona': '用户类型',
+            'pow_difficulty': 'PoW 难度：',
+            'ip_quality': 'IP 质量：',
+            'user_persona': '用户类型：',
             'chatgpt_degrade_checker': 'ChatGPT 降级检测器',
             'tooltip_text': '这个值越小，代表 PoW 难度越高，ChatGPT 认为你的 IP 风险越高。',
-            'language_label': '语言:',
-            'theme_label': '主题:',
+            'language_label': '语言：',
+            'theme_label': '主题：',
             'light_theme': '浅色',
             'dark_theme': '深色',
             'high_risk': '高风险',
@@ -155,13 +155,13 @@
             'language_name': '繁體中文',
             'default_option': '瀏覽器預設',
             'pow_info': 'PoW 資訊',
-            'pow_difficulty': 'PoW 難度',
-            'ip_quality': 'IP 品質',
-            'user_persona': '用戶類型',
+            'pow_difficulty': 'PoW 難度：',
+            'ip_quality': 'IP 品質：',
+            'user_persona': '用戶類型：',
             'chatgpt_degrade_checker': 'ChatGPT 降級檢測器',
             'tooltip_text': '這個值越小，代表 PoW 難度越高，ChatGPT 認為你的 IP 風險越高。',
-            'language_label': '語言:',
-            'theme_label': '主題:',
+            'language_label': '語言：',
+            'theme_label': '主題：',
             'light_theme': '淺色',
             'dark_theme': '深色',
             'high_risk': '高風險',
@@ -181,13 +181,13 @@
             'language_name': 'Español',
             'default_option': 'Predeterminado',
             'pow_info': 'Información de PoW',
-            'pow_difficulty': 'Dificultad de PoW',
-            'ip_quality': 'Calidad de la IP',
-            'user_persona': 'Perfil de Usuario',
+            'pow_difficulty': 'Dificultad de PoW: ',
+            'ip_quality': 'Calidad de la IP: ',
+            'user_persona': 'Perfil de Usuario: ',
             'chatgpt_degrade_checker': 'Verificador de Degradación de ChatGPT',
             'tooltip_text': 'Un valor más pequeño indica una mayor dificultad de PoW, lo que significa que ChatGPT considera que tu IP tiene un mayor riesgo.',
-            'language_label': 'Idioma:',
-            'theme_label': 'Tema:',
+            'language_label': 'Idioma: ',
+            'theme_label': 'Tema: ',
             'light_theme': 'Claro',
             'dark_theme': 'Oscuro',
             'high_risk': 'Alto Riesgo',
@@ -348,7 +348,7 @@
         </div>
         <div id="content" style="flex: 1 1 auto;">
             <div>
-                <span id="pow-difficulty-label">${t('pow_difficulty')}: </span>
+                <span id="pow-difficulty-label">${t('pow_difficulty')}</span>
                 <span id="difficulty">${t('n_a')}</span>
                 <span id="difficulty-level" style="margin-left: 3px"></span>
                 <span id="difficulty-tooltip" role="button" aria-label="Tooltip for difficulty explanation" style="
@@ -366,15 +366,15 @@
                 ">?</span>
             </div>
             <div>
-                <span id="ip-quality-label">${t('ip_quality')}: </span>
+                <span id="ip-quality-label">${t('ip_quality')}</span>
                 <span id="ip-quality">${t('n_a')}</span>
             </div>
             <div id="persona-container" style="display: none;">
-                <span id="user-persona-label">${t('user_persona')}: </span>
+                <span id="user-persona-label">${t('user_persona')}</span>
                 <span id="persona">${t('n_a')}</span>
             </div>
             <div style="margin-top: 10px;">
-                <span id="language-label">${t('language_label')} </span>
+                <span id="language-label">${t('language_label')}</span>
                 <select id="language-select" style="
                     margin-top: 5px;
                     width: 100%;
@@ -389,7 +389,7 @@
                 </select>
             </div>
             <div style="margin-top: 10px;">
-                <span id="theme-label">${t('theme_label')} </span>
+                <span id="theme-label">${t('theme_label')}</span>
                 <select id="theme-select" style="
                     margin-top: 5px;
                     width: 100%;
@@ -631,13 +631,13 @@
     function updateUIText() {
         // Update static texts
         displayBox.querySelector('#pow-info-title').innerText = t('pow_info');
-        displayBox.querySelector('#pow-difficulty-label').innerText = `${t('pow_difficulty')}: `;
+        displayBox.querySelector('#pow-difficulty-label').innerText = `${t('pow_difficulty')}`;
         tooltip.innerText = t('tooltip_text');
-        displayBox.querySelector('#ip-quality-label').innerText = `${t('ip_quality')}: `;
-        displayBox.querySelector('#user-persona-label').innerText = `${t('user_persona')}: `;
+        displayBox.querySelector('#ip-quality-label').innerText = `${t('ip_quality')}`;
+        displayBox.querySelector('#user-persona-label').innerText = `${t('user_persona')}`;
         displayBox.querySelector('#checker-name').innerText = t('chatgpt_degrade_checker');
-        displayBox.querySelector('#language-label').innerText = `${t('language_label')} `;
-        displayBox.querySelector('#theme-label').innerText = `${t('theme_label')} `;
+        displayBox.querySelector('#language-label').innerText = `${t('language_label')}`;
+        displayBox.querySelector('#theme-label').innerText = `${t('theme_label')}`;
 
         // Update refresh button text
         displayBox.querySelector('#refresh-button').innerText = t('refresh_button');
